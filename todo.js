@@ -1,4 +1,43 @@
 
+//handler functions:
+
+const toggleAll = () => {
+    todoList.toggleAll();
+    todoList.displayTodos();
+};
+
+const displayTodos = () => {
+    todoList.displayTodos();
+};
+
+const addTodo = () => {
+    let todoText = document.getElementById('js-add-todo-input');
+    todoList.addTodo(todoText.value);
+    todoText.value = '';
+    todoList.displayTodos();
+};
+
+const changeTodo = () => {
+    let newTodoPosition = document.getElementById('js-change-todo-position');
+    let newTodoText = document.getElementById('js-change-todo-text');
+    todoList.changeTodo(newTodoPosition.valueAsNumber, newTodoText.value);
+    newTodoPosition.value = '0';
+    newTodoText.value = 'insert new todo';
+    todoList.displayTodos();
+};
+
+const deleteTodo = () => {
+    let toDeletePosition = document.getElementById('js-delete-todo-position');
+    todoList.deleteTodo(toDeletePosition.value);
+    todoList.displayTodos();
+};
+
+const toggleCompleted = () => {
+    let togglePosition = document.getElementById('js-toggle-completed-position');
+    todoList.toggleCompleted(togglePosition.value);
+    todoList.displayTodos();
+};
+
 
 let todoList = {
     todos: [],
@@ -21,22 +60,17 @@ let todoList = {
                 todoText: todo,
                 isCompleted: false
             });
-            this.displayTodos();
         },
         changeTodo: function(position, newTodoText = 'blank') {
             this.todos[position].todoText = newTodoText;
-            this.displayTodos();
         },
         deleteTodo: function(position) {
-            this.todos.splice(position);
-            this.displayTodos();
+            this.todos.splice(position, 1);
         },
         toggleCompleted: function(position) {
             this.todos[position].isCompleted = !this.todos[position].isCompleted;
-            this.displayTodos();
         },
         toggleAll: function() {
-            // if everything is true, make everything false
             let completedTodos = 0;
             let totalTodos = this.todos.length;
 
@@ -55,7 +89,24 @@ let todoList = {
                     this.todos[i].isCompleted = true;
                 }
             }
-                this.displayTodos();
-            // otherwise make everything true
         }
 };
+
+let displayTodosBtn = document.getElementById('js-display-todos');
+let toggleAllBtn = document.getElementById('js-toggle-all');
+let addTodoBtn = document.getElementById('js-add-todo');
+let changeTodoBtn = document.getElementById('js-change-todo');
+let deleteTodoBtn = document.getElementById('js-delete-todo');
+let toggleCompletedBtn = document.getElementById('js-toggle-completed');
+
+displayTodosBtn.addEventListener('click', displayTodos);
+toggleAllBtn.addEventListener('click', toggleAll);
+addTodoBtn.addEventListener('click', addTodo);
+changeTodoBtn.addEventListener('click', changeTodo);
+deleteTodoBtn.addEventListener('click', deleteTodo);
+toggleCompletedBtn.addEventListener('click', toggleCompleted);
+
+
+
+
+
