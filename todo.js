@@ -1,23 +1,24 @@
-//a dev comment
+
+
+let toggleAllBtn = document.getElementById('js-toggle-all');
+let addTodoBtn = document.getElementById('js-add-todo');
+let changeTodoBtn = document.getElementById('js-change-todo');
+let deleteTodoBtn = document.getElementById('js-delete-todo');
+let toggleCompletedBtn = document.getElementById('js-toggle-completed');
+let todosList = document.getElementById('js-todo-list');
+
 //handler functions:
 
 const toggleAll = () => {
     todoList.toggleAll();
     displayTodos();
-    // todoList.displayTodos();
 };
-
-// const displayTodos = () => {
-//     displayTodos();
-//     // todoList.displayTodos();
-// };
 
 const addTodo = () => {
     let todoText = document.getElementById('js-add-todo-input');
     todoList.addTodo(todoText.value);
     todoText.value = '';
     displayTodos();
-    // todoList.displayTodos();
 };
 
 const changeTodo = () => {
@@ -27,21 +28,18 @@ const changeTodo = () => {
     newTodoPosition.value = '0';
     newTodoText.value = 'insert new todo';
     displayTodos();
-    // todoList.displayTodos();
 };
 
 const deleteTodo = () => {
     let toDeletePosition = document.getElementById('js-delete-todo-position');
     todoList.deleteTodo(toDeletePosition.value);
     displayTodos();
-    // todoList.displayTodos();
 };
 
 const toggleCompleted = () => {
     let togglePosition = document.getElementById('js-toggle-completed-position');
     todoList.toggleCompleted(togglePosition.value);
     displayTodos();
-    // todoList.displayTodos();
 };
 
 const displayTodos = () => {
@@ -49,27 +47,32 @@ const displayTodos = () => {
     for (let i = 0; i < todoList.todos.length; i++) {
         let todoLi = document.createElement('li');
         todosList.appendChild(todoLi);
+        todoLi.id = i;
+        if (todoList.todos[i].isCompleted === true) {
+            todoLi.textContent = '(x) ' + todoList.todos[i].todoText;
+        } else {
+            todoLi.textContent = '( ) ' + todoList.todos[i].todoText;
+        }
+
+        todoLi.appendChild(createDeleteButton());
     }
 };
 
+const createDeleteButton = () => {
+    let deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.classList.add('deleteButton');
+    return deleteButton;
+}
+
+toggleAllBtn.addEventListener('click', toggleAll);
+addTodoBtn.addEventListener('click', addTodo);
+changeTodoBtn.addEventListener('click', changeTodo);
+deleteTodoBtn.addEventListener('click', deleteTodo);
+toggleCompletedBtn.addEventListener('click', toggleCompleted);
 
 let todoList = {
     todos: [],
-        displayTodos: function() {
-            if (this.todos.length === 0) {
-                console.log('You have no todos!');
-               todosList.appendChild()
-            } else {
-                console.log('My Todos:');
-                for (let i = 0; i < this.todos.length; i++) {
-                    if (this.todos[i].isCompleted === true) {
-                        console.log(`(x) ${this.todos[i].todoText}`);
-                    } else {
-                        console.log(`( ) ${this.todos[i].todoText}`)
-                    }
-                }
-            }
-        },
         addTodo: function(todo = 'blank') {
             this.todos.push({
                 todoText: todo,
@@ -106,30 +109,4 @@ let todoList = {
             }
         }
 };
-
-
-
-
-let displayTodosBtn = document.getElementById('js-display-todos');
-let toggleAllBtn = document.getElementById('js-toggle-all');
-let addTodoBtn = document.getElementById('js-add-todo');
-let changeTodoBtn = document.getElementById('js-change-todo');
-let deleteTodoBtn = document.getElementById('js-delete-todo');
-let toggleCompletedBtn = document.getElementById('js-toggle-completed');
-let todosList = document.getElementById('js-todo-list');
-
-displayTodosBtn.addEventListener('click', displayTodos);
-toggleAllBtn.addEventListener('click', toggleAll);
-addTodoBtn.addEventListener('click', addTodo);
-changeTodoBtn.addEventListener('click', changeTodo);
-deleteTodoBtn.addEventListener('click', deleteTodo);
-toggleCompletedBtn.addEventListener('click', toggleCompleted);
-
-
-// what do I want this to do?
-// whenever a click any of the buttons, I want either:
-// (a) it to display "No Todos" if there are no todos
-// (b) it to display a new list item for each todo with the todo text
-// (c) for each li, also show .completed
-
 
