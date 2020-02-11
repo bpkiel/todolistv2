@@ -1,11 +1,12 @@
 
-
 let toggleAllBtn = document.getElementById('js-toggle-all');
 let addTodoBtn = document.getElementById('js-add-todo');
 let changeTodoBtn = document.getElementById('js-change-todo');
 let deleteTodoBtn = document.getElementById('js-delete-todo');
 let toggleCompletedBtn = document.getElementById('js-toggle-completed');
 let todosList = document.getElementById('js-todo-list');
+let todosUl = document.querySelector('ul');
+
 
 //handler functions:
 
@@ -30,9 +31,8 @@ const changeTodo = () => {
     displayTodos();
 };
 
-const deleteTodo = () => {
-    let toDeletePosition = document.getElementById('js-delete-todo-position');
-    todoList.deleteTodo(toDeletePosition.value);
+const deleteTodo = (position) => {
+    todoList.deleteTodo(position);
     displayTodos();
 };
 
@@ -70,6 +70,12 @@ addTodoBtn.addEventListener('click', addTodo);
 changeTodoBtn.addEventListener('click', changeTodo);
 deleteTodoBtn.addEventListener('click', deleteTodo);
 toggleCompletedBtn.addEventListener('click', toggleCompleted);
+todosUl.addEventListener('click', function(e) {
+    let elementClicked = e.target;
+    if (elementClicked.className === 'deleteButton') {
+        deleteTodo(parseInt(elementClicked.parentNode.id));
+    }
+});
 
 let todoList = {
     todos: [],
